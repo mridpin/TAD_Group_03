@@ -6,3 +6,5 @@ Repository for Group 03 TAD UPO
 * Juan Antonio Rodríguez
 * Antonio José Herrera
 * Manuel Ridao
+
+![](https://www.spikeybits.com/wp-content/uploads/2011/09/DSC02425.jpg)
