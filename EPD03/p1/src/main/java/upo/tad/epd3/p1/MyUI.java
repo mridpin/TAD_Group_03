@@ -8,6 +8,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.*;
 import com.vaadin.ui.VerticalLayout;
+import java.util.Arrays;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser
@@ -21,19 +22,24 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("mytheme")
 public class MyUI extends UI implements Button.ClickListener {
 
+    // Fuente: https://demo.vaadin.com/docs/example-source/com/vaadin/demo/Calc.java.html
+    private final Label display = new Label("");
+    private final String[] valores = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private Double operador1 = 0.0;
+    private Double operador2 = 0.0;
+    private String ultimaOperacion = "C";
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final GridLayout layout = new GridLayout(3, 4);
-
-        Table table = new Table("Entrada-Salida");
+        final GridLayout layout = new GridLayout(3, 6);
+        layout.addComponent(display, 0, 0, 2, 0);
         String[] operations = new String[]{"7", "8", "9", "4", "5", "6",
-            "1", "2", "3", "0", "+", "-", "*", "/", "C",};
+            "1", "2", "3", "0", "+", "-", "*", "/", "C", "="};
         for (String chr : operations) {
             Button button = new Button(chr);
             button.addClickListener(this);
             layout.addComponent(button);
         }
-
         layout.setMargin(true);
         layout.setSpacing(true);
 
@@ -46,12 +52,8 @@ public class MyUI extends UI implements Button.ClickListener {
         Button button = event.getButton();
         // Contenido del button
         String operacion = button.getCaption();
-
-        // Calculate the new value
-        double newValue = calcular(requestedOperation);
-
-        // Update the result label with the new value
-        display.setValue(newValue);
+        Double resultado = calcular(operacion);
+        display.setValue(resultado.toString());
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
@@ -59,25 +61,43 @@ public class MyUI extends UI implements Button.ClickListener {
     public static class MyUIServlet extends VaadinServlet {
     }
 
-    private Double calcular(double valorActual, String operador) {
-        Double resultado;
+    private Double calcular(String operacion) {
+        // Comprobar si se han introducido numeros o operadores
+        if (Arrays.asList(valores).contains(operacion)) {
+            operador1 = operador1 * 10 + Double.parseDouble(operacion);
+            return operador1;
+        }
         try {
-            if (operador.equals("+")) {
-                resultado = operador1 + operador2;
-            } else if (request.getParameter("operador").equals("-")) {
-                resultado = operador1 - operador2;
-            } else if (request.getParameter("operador").equals("*")) {
-                resultado = operador1 * operador2;
-            } else if (request.getParameter("operador").equals("%")) {
-                resultado = operador1 / operador2;
+            switch (ultimaOperacion) {
+                case "+":
+                    operador2 = operador1 + operador2;
+                    break;
+                case "-":
+                    operador2 -= operador1;
+                    break;
+                case "*":
+                    operador2 *= operador1;
+                    break;
+                case "/":
+                    operador2 /= operador1;
+                    break;
+                case "C":
+                    operador2 = operador1;
+                    break;
+                default:
+                    break;
+            }
+            ultimaOperacion = operacion;
+            operador1 = 0.0;
+            if (operacion.equals("C")) {
+                operador2 = 0.0;
             }
         } catch (ArithmeticException e) {
-
-            TelemetryClient tc = new TelemetryClient();
-            tc.getContext().setInstrumentationKey("c2d08a94-9a97-4f4c-9835-1d5e2cb538dd");
-            tc.trackEvent("divisionPorCero");
-            out.write("<p>ERROR: Division entre 0!</p>");
+//            TelemetryClient tc = new TelemetryClient();
+//            tc.getContext().setInstrumentationKey("c2d08a94-9a97-4f4c-9835-1d5e2cb538dd");
+//            tc.trackEvent("divisionPorCero");
+            System.err.println("<p>ERROR: Division entre 0!</p>");
         }
-        out.write("<p>Resultado: " + resultado + "</p>");
+        return operador2;
     }
 }
