@@ -70,13 +70,7 @@
             <groupId>com.vaadin.addon</groupId>
             <artifactId>vaadin-charts</artifactId>
             <version>3.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-charts</artifactId>
-            <version>4.0.1</version>
-            <type>jar</type>
-        </dependency>
+        </dependency>        
     </dependencies>
 
     <build>
