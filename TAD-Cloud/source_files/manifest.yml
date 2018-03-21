@@ -1,0 +1,4 @@
+ applications:
+ - name: tadcloud
+   random-route: true
+   memory: 256M
