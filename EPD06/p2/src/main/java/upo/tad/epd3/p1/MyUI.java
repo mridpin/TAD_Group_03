@@ -53,7 +53,7 @@ public class MyUI extends UI implements Button.ClickListener {
         mainLayout.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
         
         // Titulo de la pagina
-        Label h1 = new Label("TAD - Grupo 03 - EPD06 P1");
+        Label h1 = new Label("TAD - Grupo 03 - EPD06 P2");
         h1.addStyleName(ValoTheme.LABEL_H1);
         mainLayout.addComponent(h1, 0);        
         
