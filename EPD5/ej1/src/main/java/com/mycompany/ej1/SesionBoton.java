@@ -9,6 +9,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.server.WrappedSession;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -20,16 +21,19 @@ public class SesionBoton extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         
-        final TextField texto = new TextField();
-
+        Label h1 = new Label("TAD - Grupo03 - EPD05 EJ1: SesionBoton");
+        h1.addStyleName("h1");
+        TextField texto = new TextField();
         Button button = new Button("Enviar");
         button.addClickListener( e -> {
             WrappedSession session = getSession().getSession();
             session.setAttribute("valorUsuario", texto.getValue());
-            Page.getCurrent().setLocation("http://localhost:8080/SesionEtiqueta");
+            Page.getCurrent().setLocation("http://www.google.es");
         });
+        Label urllab = new Label("URL actual: " + Page.getCurrent().getLocation().toString());
+
         
-        layout.addComponents(texto, button);
+        layout.addComponents(h1, texto, button, urllab);
         layout.setMargin(true);
         layout.setSpacing(true);
         

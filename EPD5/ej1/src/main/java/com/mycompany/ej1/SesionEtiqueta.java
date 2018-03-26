@@ -19,13 +19,15 @@ public class SesionEtiqueta extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         WrappedSession session = getSession().getSession();
-        
+        Label h1 = new Label("TAD - Grupo03 - EPD05 EJ1: SesionEtiqueta");
+        h1.addStyleName("h1");
+
         Label result = new Label((String) session.getAttribute("valorUsuario"));
-        
-        layout.addComponent(result);
+        Label urllab = new Label("URL actual: " + Page.getCurrent().getLocation().toString());
+        layout.addComponents(h1, result, urllab);
         layout.setMargin(true);
         layout.setSpacing(true);
-        
+
         setContent(layout);
     }
 
