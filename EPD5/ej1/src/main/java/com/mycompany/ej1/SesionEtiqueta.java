@@ -32,7 +32,7 @@ public class SesionEtiqueta extends UI {
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-    @VaadinServletConfiguration(ui = SesionEtiqueta.class, productionMode = false)
+    @VaadinServletConfiguration(ui = SesionBoton.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
 }
