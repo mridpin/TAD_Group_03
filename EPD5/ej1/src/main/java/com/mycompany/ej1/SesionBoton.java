@@ -28,7 +28,7 @@ public class SesionBoton extends UI {
         button.addClickListener( e -> {
             WrappedSession session = getSession().getSession();
             session.setAttribute("valorUsuario", texto.getValue());
-            Page.getCurrent().setLocation("http://www.google.es");
+            getUI().getPage().setLocation("http://localhost:8080/SesionEtiqueta");
         });
         Label urllab = new Label("URL actual: " + Page.getCurrent().getLocation().toString());
 
