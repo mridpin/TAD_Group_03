@@ -5,9 +5,13 @@
  */
 package upo.tad.p1;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,9 +22,11 @@ public class Application {
     DB db;
     DBCollection players;
     DBCollection teams;
+    ObjectMapper mapper;
 
     public Application(DB db) {
         this.db = db;
+        this.mapper = new ObjectMapper();
         BasicDBObject player1 = new BasicDBObject();
         BasicDBObject player2 = new BasicDBObject();
         BasicDBObject player3 = new BasicDBObject();
@@ -96,8 +102,15 @@ public class Application {
         DBCursor c = db.getCollection("teams").find();
         String res = "";
         while(c.hasNext()) {
-            res += c.next().toString();
-            res += "\n";
+            Object json;
+            try {
+                // Format DBObject string into JSON
+                json = mapper.readValue(c.next().toString(), Object.class);
+                res += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+                res += "\n";
+            } catch (IOException ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return res;
     }
@@ -105,8 +118,15 @@ public class Application {
         DBCursor c = db.getCollection("players").find();
         String res = "";
         while(c.hasNext()) {
-            res += c.next().toString();
-            res += "\n";
+            Object json;
+            try {
+                // Format DBObject string into JSON
+                json = mapper.readValue(c.next().toString(), Object.class);
+                res += mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+                res += "\n";
+            } catch (IOException ex) {
+                Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return res;
     }
