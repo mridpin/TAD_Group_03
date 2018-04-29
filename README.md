@@ -7,4 +7,4 @@ Repository for Group 03 TAD UPO
 * Antonio José Herrera
 * Manuel Ridao
 
-![](https://imgs.xkcd.com/comics/git.png)
+![](https://www.spikeybits.com/wp-content/uploads/2011/09/DSC02425.jpg)
